@@ -7,6 +7,10 @@ app = Flask("Emotion Detector")
 def sent_detector():
     text_to_analyze = request.args.get('textToAnalyze')
     response = emotion_detector(text_to_analyze)
+
+    if response["dominant_emotion"] is None:
+        return "<p>Invalid text! Please try again!</p>"
+
     web_response = f"""<p>For the given statement, the system response is 
                     'anger': { response["anger"] }, 
                     'disgust': { response["disgust"] }, 
@@ -22,4 +26,4 @@ def render_index_page():
     return render_template('index.html')
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=8080)
